@@ -1,0 +1,25 @@
+name: master-ci
+
+on: push
+
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: use dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0'
+
+      - name: restore dependencies
+        run: dotnet restore
+      
+      - name: build
+        run: dotnet build --no-restore 
+      
+      

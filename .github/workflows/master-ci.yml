@@ -11,15 +11,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: use dotnet
-        uses: actions/setup-dotnet@v4
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6.18.0
         with:
-          dotnet-version: '8.0'
-
-      - name: restore dependencies
-        run: dotnet restore
-      
-      - name: build
-        run: dotnet build --no-restore 
+          context: .
+          push: false
+          path: Dockerfile
+          tags: newapp:latest
+          load: true
+        
       
       

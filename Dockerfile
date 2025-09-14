@@ -22,4 +22,4 @@ USER appuser
 
 ENV ASPNETCORE_HTTP_PORTS=8080
 EXPOSE 8080
-ENTRYPOINT ["dotnet", "dotnet_core_sample.dll"]
+ENTRYPOINT ["dotnet", "pipelines-dotnet-core.dll"]

@@ -13,6 +13,7 @@ RUN addgroup -g 1001 -S appgroup \
     && apk add --no-cache \
         ca-certificates \
         tzdata \
+        openssl \
     && update-ca-certificates \
     && rm -rf /var/cache/apk/* /tmp/*
 WORKDIR /app

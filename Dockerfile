@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
 WORKDIR /src
 COPY *.csproj ./
 RUN dotnet restore
@@ -6,7 +6,7 @@ COPY . .
 RUN dotnet publish -c Release -o /app/publish --no-restore
 
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS runtime
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2 AS runtime
 RUN addgroup -g 1001 -S appgroup \
     && adduser -S appuser -G appgroup -u 1001 \
     && apk upgrade --no-cache \

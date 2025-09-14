@@ -1,24 +1,41 @@
 name: master-ci
 
-on: push
+on: 
+  push:
+    branches: master
 
-
+permissions:
+  contents: read
+  packages: write
+  security-events: write
+  
 jobs:
   build:
     runs-on: ubuntu-22.04
+    environment: Develop_ACR
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v6.18.0
-        with:
-          context: .
-          push: false
-          path: Dockerfile
-          tags: newapp:latest
-          load: true
+
+      - name: Set image tag
+        run: |
+          IMAGE_TAG="${{ github.ref_name }}-${GITHUB_SHA::7}-$(date +%Y%m%d%H%M)"
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
         
+
+
+      - name: 'Build and push image'
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_SERVER }}
+          username: ${{ secrets.ACR_SERVER }}
+          password: ${{ secrets.ACR_PASS }}
+    
+      - run: |
+          docker build . -t ${{ secrets.ACR_SERVER }}/myApp:${{ var.IMAGE_TAG }}
+          docker push ${{ secrets.ACR_SERVER }}/myApp:${{ var.IMAGE_TAG }}
+
       
       

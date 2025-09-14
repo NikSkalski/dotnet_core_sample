@@ -30,7 +30,7 @@ jobs:
         uses: azure/docker-login@v1
         with:
           login-server: ${{ secrets.ACR_SERVER }}
-          username: ${{ secrets.ACR_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASS }}
     
       - run: |
